@@ -30,11 +30,19 @@ class AppKernel extends Kernel
 
     public function getCacheDir()
     {
+        if ($cacheDir = getenv('SYMFONY_CACHE_DIR')) {
+            return $cacheDir;
+        }
+
         return dirname(__DIR__).'/var/cache/'.$this->getEnvironment();
     }
 
     public function getLogDir()
     {
+        if ($logDir = getenv('SYMFONY_LOG_DIR')) {
+            return $logDir;
+        }
+
         return dirname(__DIR__).'/var/logs';
     }
 
