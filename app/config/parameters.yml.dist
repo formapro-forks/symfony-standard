@@ -6,6 +6,7 @@ parameters:
     env(ENQUEUE_ROUTER_QUEUE): default
     env(ENQUEUE_REDELIVERED_DELAY_TIME): 10
     env(SYMFONY_SECRET): 'ThisTokenIsNotSoSecretChangeIt'
+    env(SENTRY_DSN): ~
 
     rabbitmq_host: '%env(RABBITMQ_HOST)%'
     rabbitmq_vhost: '%env(RABBITMQ_VHOST)'
@@ -20,3 +21,5 @@ parameters:
     enqueue_redelivered_delay_time: '%env(ENQUEUE_REDELIVERED_DELAY_TIME)'
 
     secret: '%env(SYMFONY_SECRET)'
+
+    sentry_dsn: '%env(SENTRY_DSN)'
