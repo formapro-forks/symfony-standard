@@ -2,18 +2,21 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host: 127.0.0.1
-    database_port: ~
-    database_name: symfony
-    database_user: root
-    database_password: ~
-    # You should uncomment this if you want to use pdo_sqlite
-    #database_path: "%kernel.root_dir%/data.db3"
+    env(ENQUEUE_ROUTER_TOPIC): router
+    env(ENQUEUE_ROUTER_QUEUE): default
+    env(ENQUEUE_REDELIVERED_DELAY_TIME): 10
+    env(SYMFONY_SECRET): 'ThisTokenIsNotSoSecretChangeIt'
 
-    mailer_transport: smtp
-    mailer_host: 127.0.0.1
-    mailer_user: ~
-    mailer_password: ~
+    rabbitmq_host: '%env(RABBITMQ_HOST)%'
+    rabbitmq_vhost: '%env(RABBITMQ_VHOST)'
+    rabbitmq_port: '%env(RABBITMQ_PORT)'
+    rabbitmq_login: '%env(RABBITMQ_LOGIN)'
+    rabbitmq_password: '%env(RABBITMQ_PASSWORD)'
 
-    # A secret key that's used to generate certain security-related tokens
-    secret: ThisTokenIsNotSoSecretChangeIt
+    enqueue_prefix: '%env(ENQUEUE_PREFIX)'
+    enqueue_app_name: '%env(ENQUEUE_APP_NAME)'
+    enqueue_router_topic: '%env(ENQUEUE_ROUTER_TOPIC)'
+    enqueue_router_queue: '%env(ENQUEUE_ROUTER_QUEUE)'
+    enqueue_redelivered_delay_time: '%env(ENQUEUE_REDELIVERED_DELAY_TIME)'
+
+    secret: '%env(SYMFONY_SECRET)'

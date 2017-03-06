@@ -3,8 +3,6 @@ imports:
 
 framework:
     test: ~
-    session:
-        storage_id: session.storage.mock_file
     profiler:
         collect: false
 
@@ -12,5 +10,9 @@ web_profiler:
     toolbar: false
     intercept_redirects: false
 
-swiftmailer:
-    disable_delivery: true
+enqueue:
+    transport:
+        default: 'null'
+        'null': true
+    client:
+        traceable_producer: true
