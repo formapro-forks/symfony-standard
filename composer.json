@@ -17,7 +17,8 @@
         "symfony/symfony": "^3.2",
         "enqueue/enqueue-bundle": "^0.2",
         "enqueue/amqp-ext": "^0.2",
-        "makasim/yadm": "^0.2"
+        "makasim/yadm": "^0.2",
+        "webmozart/json": "^1.2"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.1",
