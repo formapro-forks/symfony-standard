@@ -1,0 +1,3 @@
+root:
+    path:      /
+    defaults:  { _controller: 'app.root_controller' }

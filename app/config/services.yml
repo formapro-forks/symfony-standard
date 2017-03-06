@@ -1,3 +1,5 @@
 parameters:
 
 services:
+  app.root_controller:
+      class: 'App\RootController'

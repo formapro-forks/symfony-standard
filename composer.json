@@ -4,11 +4,11 @@
     "type": "project",
     "description": "The Formapro's API base project",
     "autoload": {
-        "psr-4": { "": "src/" },
+        "psr-4": { "App\\": "src/" },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
     "autoload-dev": {
-        "psr-4": { "Tests\\": "tests/" }
+        "psr-4": { "App\\Tests\\": "tests/" }
     },
     "require": {
         "php": ">=7.0",
