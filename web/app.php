@@ -6,7 +6,12 @@ use Symfony\Component\HttpFoundation\Request;
 $loader = require __DIR__.'/../app/autoload.php';
 
 if ($sentryDsn = getenv('SENTRY_DSN')) {
-    new Raven_Client($sentryDsn);
+    $client = new Raven_Client($sentryDsn);
+
+    $errorHandler = new Raven_ErrorHandler($client);
+    $errorHandler->registerExceptionHandler();
+    $errorHandler->registerErrorHandler();
+    $errorHandler->registerShutdownFunction();
 }
 
 if (false == $env = getenv('SYMFONY_ENV')) {
