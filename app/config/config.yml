@@ -30,6 +30,14 @@ framework:
     php_errors:
         log: true
 
+sensio_framework_extra:
+    router:      { annotations: true }
+    request:     { converters: false, auto_convert: false }
+    view:        { annotations: false }
+    cache:       { annotations: true }
+    security:    { annotations: false }
+    psr_message: { enabled: false }
+
 enqueue:
     transport:
         default: 'amqp'
