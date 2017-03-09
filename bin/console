@@ -16,7 +16,13 @@ set_time_limit(0);
 $loader = require __DIR__.'/../app/autoload.php';
 
 if ($sentryDsn = getenv('SENTRY_DSN')) {
-    $client = new Raven_Client($sentryDsn);
+    $client = new Raven_Client($sentryDsn, [
+        'curl' => 'async',
+        'extra' => [
+            'app_id' => getenv('APP_ID')
+        ],
+        'environment' => getenv('SYMFONY_ENV'),
+    ]);
 
     $errorHandler = new Raven_ErrorHandler($client);
     $errorHandler->registerExceptionHandler();
