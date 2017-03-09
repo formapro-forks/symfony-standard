@@ -1,5 +1,8 @@
 <?php
 
+use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeExtensionGuesser;
+use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
+use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
@@ -43,6 +46,43 @@ function create_app_server(KernelInterface $kernel, $host = '127.0.0.1', $port =
 {
     $server = new \swoole_http_server($host, $port);
     $server->on('request', function (\swoole_http_request $swRequest, \swoole_http_response $swResponse) use ($kernel) {
+        if (isset($swRequest->server['request_uri']) && is_file(__DIR__.'/web'.$swRequest->server['request_uri'])) {
+            $staticFile = __DIR__.'/web'.$swRequest->server['request_uri'];
+
+            // do not allow to go out of web dir
+            if (false === strpos($staticFile, '..')) {
+                $guesser = MimeTypeGuesser::getInstance();
+                $guesser->register(new class() implements MimeTypeGuesserInterface {
+                    private $mimeTypeExtensionGuesser;
+
+                    public function __construct()
+                    {
+                        $this->mimeTypeExtensionGuesser = new MimeTypeExtensionGuesser();
+                    }
+
+                    /**
+                     * {@inheritdoc}
+                     */
+                    public function guess($path)
+                    {
+                        return (function ($path) {
+                            $ext = pathinfo($path, PATHINFO_EXTENSION);
+
+                            $mimeTypes = array_flip($this->defaultExtensions);
+
+                            return $mimeTypes[$ext] ?? null;
+                        })->call($this->mimeTypeExtensionGuesser, $path);
+                    }
+                });
+
+                $mimeType = $guesser->guess($staticFile);
+                $swResponse->header('Content-Type', $mimeType);
+                $swResponse->sendfile($staticFile);
+
+                return;
+            }
+        }
+
         try {
             $sfRequest = create_request($swRequest);
             $sfResponse = $kernel->handle($sfRequest);
