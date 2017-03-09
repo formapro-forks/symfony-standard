@@ -16,6 +16,7 @@
         "symfony/polyfill-apcu": "^1.0",
         "symfony/symfony": "^3.2",
         "symfony/monolog-bundle": "^3.0.2",
+        "sensio/framework-extra-bundle": "^3.0.2",
         "enqueue/enqueue-bundle": "^0.2",
         "enqueue/amqp-ext": "^0.2",
         "makasim/yadm": "^0.2",
